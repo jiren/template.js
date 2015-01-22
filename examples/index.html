@@ -1,0 +1,47 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="assets/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="assets/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="../dist/template.js" type="text/javascript"></script>
+    <script src="data/movies.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
+  </head>
+  <body>
+		<div class="container">
+			<h3 id="time_bm" class="time_bm"></h3>
+			<div id="movie"></div>
+		</div>
+		<script id="movie-template" type="text/x-template">
+			<div class="col-span-4 movie">
+				<div class="thumbnail">
+					<span class="label label-success rating"><%= rating %>
+					<i class="glyphicon glyphicon-star"></i>
+				</span>
+				<div class="caption">
+					<h4><%= name %></h4>
+					<div class="outline">
+						<%= outline %>
+						<span class="runtime">
+							<i class="glyphicon glyphicon-time"></i>
+							<%= runtime %> mins.
+						</span>
+					</div>
+					<div class="detail">
+						<dl>
+							<dt>Director</dt>
+							<dd><%= director %></dd>
+							<dt>Actors</dt>
+							<dd><%= stars %></dt>
+							<dt>Year</dt>
+							<dd><%= year %></dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</script>
+  </body>
+</html>
