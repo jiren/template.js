@@ -1,6 +1,6 @@
 /*
  * template.js
- * 0.0.1 (2015-01-22)
+ * 0.0.1 (2015-01-23)
  *
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
@@ -9,36 +9,23 @@
  *
  */
  
- (function() {
+ (function(window) {
 
 	var root = this;
 
 	var Template = function(str, data){
 		var t = new _template();
-		return t.compile(str, data);
-	}
+		return t.render(str, data);
+	};
 
-	function _template(){ };
-
-	var T = _template.prototype;
-
-	if (typeof exports !== 'undefined') {
-		if (typeof module !== 'undefined' && module.exports) {
-			exports = module.exports = Template;
-		}
-		exports.Template = Template;
-	} else {
-		root.Template = Template;
-	}
-
-	//Template.delimiter = {start: "<", end: ">"};
+	root.Template = Template;
 
 	var templateSettings = {
 		evaluate    : /<%([\s\S]+?)%>/g,
 		interpolate : /<%=([\s\S]+?)%>/g,
 		escape      : /<%-([\s\S]+?)%>/g
 	};
-
+	
 	var escapeStr = function(string) {
 		return (''+string).replace(/&/g,  '&amp;')
 											.replace(/</g,  '&lt;')
@@ -47,9 +34,10 @@
 											.replace(/'/g,  '&#x27;')
 											.replace(/\//g, '&#x2F;');
 	};
-
-	T.compile = function(str, data) {
-		var c  = templateSettings;
+	
+	var render = function(str, data) {
+		var c  = templateSettings; 
+	
 		var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
 			'with(obj||{}){__p.push(\'' +
 			str.replace(/\\/g, '\\\\')
@@ -68,10 +56,21 @@
 				 .replace(/\n/g, '\\n')
 				 .replace(/\t/g, '\\t')
 				 + "');}return __p.join('');";
-
+	
 		var func = new Function('obj', tmpl);
 		return data ? func(data) : function(data) { return func(data) };
 	};
+	
+	
 
 
-}).call(this);
+	function _template(){ };
+
+	var T = _template.prototype;
+
+	T.render = function(str, data){
+		return render(str, data);
+	};
+
+
+}).call(this, window);

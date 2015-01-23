@@ -8,5 +8,6 @@
 /_gh_pages
 *.DS_Store
 *.swp
-/_extra
+/extra
 node_modules
+

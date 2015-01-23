@@ -7,11 +7,13 @@ var gulp = require('gulp'),
   header = require('gulp-header'),
   runSequence = require('run-sequence'),
   rename = require('gulp-rename'),
+	injector = require('gulp-injector'),
   browserSync = require('browser-sync');
 
 var pkg = require('./package.json'),
     paths = {
-    	scripts: [ 'src/template.js'],
+    	src: ['src/main.js'],
+			scripts: ['src/*.js'],
     	dist: 'dist'
   	},
   	uncompressedJs = 'template.js',
@@ -51,12 +53,13 @@ gulp.task('templates', function(){
 
 gulp.task('scripts', function() {
 
- return gulp.src(paths.scripts)
+ return gulp.src(paths.src)
   .pipe(concat(uncompressedJs))
+	.pipe(injector())
   .pipe(header(banner, { pkg: pkg } ))
   .pipe(gulp.dest(paths.dist))
-  .pipe(sourcemaps.init())
-  .pipe(uglify({preserveComments: 'all'}))
+//  .pipe(sourcemaps.init())
+//  .pipe(uglify({preserveComments: 'all'}))
   .pipe(rename(compressedJs))
   .pipe(gulp.dest(paths.dist))
 
@@ -64,7 +67,6 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['scripts']);
-  gulp.watch(paths.lib, ['scripts']);
 });
 
 gulp.task('browser-sync', function() {

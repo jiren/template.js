@@ -8,7 +8,7 @@ $(document).ready(function(){
 	$('#movie').html(movieHtml);
 
 	var i = 0,
-			iterations = 1000;
+			iterations = 1;
 
 	var t1 = new Date();
 	for(i; i < iterations; i++){
