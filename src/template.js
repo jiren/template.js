@@ -13,7 +13,7 @@ var escapeStr = function(string) {
 										.replace(/\//g, '&#x2F;');
 };
 
-var render = function(str, data) {
+var compile = function(str, objs) {
 	var c  = templateSettings; 
 
 	var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
@@ -33,9 +33,39 @@ var render = function(str, data) {
 			 .replace(/\r/g, '\\r')
 			 .replace(/\n/g, '\\n')
 			 .replace(/\t/g, '\\t')
-			 + "');}return __p.join('');";
+			 + "');};return __p.join('');";
 
-	var func = new Function('obj', tmpl);
-	return data ? func(data) : function(data) { return func(data) };
+  try {
+    var func = new Function('obj', 'render', tmpl);
+  } catch (e) {
+    e.source = tmpl;
+    throw e;
+  }
+
+  return objs ? func(objs, render) : function(objs) { return func(objs, render) };
 };
 
+
+var tmplCache = {};
+
+function render(eleId, objs, options){
+  var tmpl = tmplCache[eleId], html;
+
+  if(!tmpl){
+    html = document.getElementById(eleId).text;
+    tmpl = tmplCache[eleId] = compile(html)
+  }
+
+  if(!options){
+    objs.__index = 0;
+    return tmpl(objs);
+  }
+
+  if(options.as == 'collection'){
+    var index = 0;
+    return objs.map(function(obj){ 
+      obj.__index = index++;
+      return tmpl(obj);
+    }).join(''); 
+  }
+};

@@ -1,23 +1,15 @@
-(function(window) {
+(function(window, document) {
+
+  'use strict';
 
 	var root = this;
 
-	var Template = function(str, data){
-		var t = new _template();
-		return t.render(str, data);
+	var Template = function(eleId, data){
+    return render(eleId, data)
 	};
 
-	root.Template = Template;
+  root.Template = Template;
 
 	/* inject src/template.js */
 
-	function _template(){ };
-
-	var T = _template.prototype;
-
-	T.render = function(str, data){
-		return render(str, data);
-	};
-
-
-}).call(this, window);
+}).call(this, window, document);

@@ -1,6 +1,6 @@
 /*
  * template.js
- * 0.0.1 (2015-01-23)
+ * 0.0.1 (2015-02-09)
  *
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
@@ -9,16 +9,17 @@
  *
  */
  
- (function(window) {
+ (function(window, document) {
+
+  'use strict';
 
 	var root = this;
 
-	var Template = function(str, data){
-		var t = new _template();
-		return t.render(str, data);
+	var Template = function(eleId, data){
+    return render(eleId, data)
 	};
 
-	root.Template = Template;
+  root.Template = Template;
 
 	var templateSettings = {
 		evaluate    : /<%([\s\S]+?)%>/g,
@@ -35,7 +36,7 @@
 											.replace(/\//g, '&#x2F;');
 	};
 	
-	var render = function(str, data) {
+	var compile = function(str, objs) {
 		var c  = templateSettings; 
 	
 		var tmpl = 'var __p=[],print=function(){__p.push.apply(__p,arguments);};' +
@@ -55,22 +56,43 @@
 				 .replace(/\r/g, '\\r')
 				 .replace(/\n/g, '\\n')
 				 .replace(/\t/g, '\\t')
-				 + "');}return __p.join('');";
+				 + "');};return __p.join('');";
 	
-		var func = new Function('obj', tmpl);
-		return data ? func(data) : function(data) { return func(data) };
+	  try {
+	    var func = new Function('obj', 'render', tmpl);
+	  } catch (e) {
+	    e.source = tmpl;
+	    throw e;
+	  }
+	
+	  return objs ? func(objs, render) : function(objs) { return func(objs, render) };
 	};
 	
 	
-
-
-	function _template(){ };
-
-	var T = _template.prototype;
-
-	T.render = function(str, data){
-		return render(str, data);
+	var tmplCache = {};
+	
+	function render(eleId, objs, options){
+	  var tmpl = tmplCache[eleId], html;
+	
+	  if(!tmpl){
+	    html = document.getElementById(eleId).text;
+	    tmpl = tmplCache[eleId] = compile(html)
+	  }
+	
+	  if(!options){
+	    objs.__index = 0;
+	    return tmpl(objs);
+	  }
+	
+	  if(options.as == 'collection'){
+	    var index = 0;
+	    return objs.map(function(obj){ 
+	      obj.__index = index++;
+	      return tmpl(obj);
+	    }).join(''); 
+	  }
 	};
+	
 
 
-}).call(this, window);
+}).call(this, window, document);

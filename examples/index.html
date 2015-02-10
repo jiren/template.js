@@ -15,7 +15,20 @@
 			<h3 id="time_bm" class="time_bm"></h3>
 			<div id="movie"></div>
 		</div>
-		<script id="movie-template" type="text/x-template">
+		<script id="detail-tmpl" type="text/x-template">
+       <div class="detail">
+         <%= __index  %>
+         <dl>
+           <dt>Director</dt>
+           <dd><%= director %></dd>
+           <dt>Actors</dt>
+           <dd><%= stars %></dt>
+           <dt>Year</dt>
+           <dd><%= year %></dd>
+         </dl>
+       </div>
+    </script>
+		<script id="movie-tmpl" type="text/x-template">
 			<div class="col-span-4 movie">
 				<div class="thumbnail">
 					<span class="label label-success rating"><%= rating %>
@@ -30,16 +43,8 @@
 							<%= runtime %> mins.
 						</span>
 					</div>
-					<div class="detail">
-						<dl>
-							<dt>Director</dt>
-							<dd><%= director %></dd>
-							<dt>Actors</dt>
-							<dd><%= stars %></dt>
-							<dt>Year</dt>
-							<dd><%= year %></dd>
-						</dl>
-					</div>
+          <%= render('detail-tmpl', [{director: 2000, stars: 3, year: 2015}, {director: 2006, stars: 6, year: 2016}], {as: 'collection'}) %>
+          <%= render('detail-tmpl', obj) %>
 				</div>
 			</div>
 		</script>
