@@ -1,0 +1,36 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <link href="assets/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="assets/css/style.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="assets/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="../dist/template.js" type="text/javascript"></script>
+    <script src="user.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="user"></div>
+    </div>
+    <script id="address-tmpl" type="text/x-template">
+      <h5> Address1 : <%= address1 %></h5>
+      <h5> City : <%= city %> </h5>
+      <h5> State : <%= state %> </h5>
+      <hr/>
+    </script>
+
+    <script id="user-tmpl" type="text/x-template">
+      <h4> Name <%= name %></h4>
+      <h4> email <%=  email %></h4>
+      <hr/>
+      <div>
+        <h4> Billing Address</h4>
+        <%= render('address-tmpl', obj.billing_address) %>
+      </div>
+      <div>
+        <h4> Shipping Address </h4>
+        <%= render('address-tmpl', obj.shipping_address) %>
+      </div>
+    </script>
+ </body>
