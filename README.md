@@ -9,7 +9,7 @@ Usage
 
 Syntax is same as erb
 
-```
+```javascript
 <script id="movie-tmpl" type="text/x-template">
   <div class="detail">
    <dl>
@@ -33,10 +33,10 @@ var moive = {
 };
 
 
-# `movie-tmpl` is id of template element
+// `movie-tmpl` is id of template element
 var movieHtml = Template('movie-tmpl', movie);
 
-# i.e append to moive container
+// i.e append to moive container
 $('#movie').html(movieHtml); 	
 
 ```
@@ -44,7 +44,7 @@ $('#movie').html(movieHtml);
 Using Partials
 -------
 
-```
+```javascript
 <script id="address-tmpl" type="text/x-template">
   <h2> Address1 : <%= address1 %></h1>
   <h2> City : <%= city %> </h2>
