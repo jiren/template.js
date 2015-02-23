@@ -10,7 +10,7 @@ Usage
 Syntax is same as erb
 
 ```
-<script id="detail-tmpl" type="text/x-template">
+<script id="movie-tmpl" type="text/x-template">
   <div class="detail">
    <dl>
      <dt>Name</dt>
